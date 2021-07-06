@@ -1,1 +1,80 @@
 # Common-WSL-Fixes
+## Just some notes on WSL that I have to look up all the time. Fixes for hyper-v and VMware, etc.
+I'm pretty sure I'm one of like 50 people that battle this all the time. 
+
+# To Have a separate Hyper-V-less boot easily.
+## This makes a secondary boot-entry so you can switch in like 2 seconds, vs going into the Windows Features and remembering which ones to trigger.
+It's worth doing this, promise. 
+
+```
+// Run powershell as Admin. (different commands for cmd)
+bcdedit --% /copy {current} /d "No Hyper V"
+bcdedit --% /set  {OUTPUT ID FROM TERMINAL} hypervisorlaunchtype off
+// Reboot
+```
+
+# gnome-boxes Fix Display in wslg
+```
+gnome-boxes --display=
+// No idea why this works, but I think it just hates Wayland(as do I)
+```
+
+# Expose virtualization extensions in virt-manager/gnome-boxes
+## This also applies to Hyper-V in some cases, but I'm not sure how. There is a psh line you can google to trigger it for HV.
+## Create C:\Users\<YourName>\.wslconfig
+I would stick to doing this per-vm, because it will break. Remember to wsl.exe --shutdown for it to take effect.
+If process hangs - Open Task Manager > Services > Restart lxssmanager
+Any problems just delete the .wslconfig and reboot. 
+
+```
+# Exposing nested-virtualization extensions
+
+[wsl2]
+nestedVirtualization=true
+kernel=C:\\Users\\<YOU>\\bzImage # You may need to compile a kernel for this.
+  
+# Limiting the vm's resources
+
+[wsl2]
+memory=7GB # Limits VM memory in WSL 2 to 4 GB
+processors=2 # Makes the WSL 2 VM use two virtual processors /etc/wsl.conf
+
+```
+
+# VMWare Player Being Annoying
+## Player is actually configurable in a lot of ways, but they go out of their way to act like it isn't.
+
+```
+Open an Elevated Text Editor and open-
+"C:\ProgramData\VMware\VMware Workstation\settings.ini"
+
+# Copy and paste these
+
+ulm.disableMitigations = "TRUE" # Sidechannel Mitigations
+printers.enabled = "FALSE"
+vmplayer.showChrome = "FALSE" 
+# I believe this makes that annoying full-screen bar die --and they act like it's a 'premium' feature lol.
+pref.vmplayer.fullscreen.nobar = "TRUE" # But there is something weird about it that I can't recall
+```
+
+# Cpu Tests 
+
+## Check CPU Info/Capabilities
+```
+egrep '^flags.*(vmx|svm)' /proc/cpuinfo
+```
+
+## Linux Benchmarks
+// Single Threaded
+```
+sudo apt-get install sysbench
+sysbench --test=cpu --cpu-max-prime=20000 run
+```
+// Multi-Threaded
+
+```sudo apt install stress-ng
+stress-ng --cpu-method which
+stress-ng --cpu 2 --cpu-method matrixprod  --metrics-brief --perf -t 60
+```
+
+
