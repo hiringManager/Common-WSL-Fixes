@@ -1,8 +1,10 @@
 # Common-WSL-Fixes
 
- Just some notes on WSL that I have to look up all the time. Fixes for hyper-v and VMware, etc.
+# Enable WSL2
 
-I'm pretty sure I'm one of like 50 people that battle this all the time. 
++ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
++ wsl --set-default-version 2
++ wsl --set-version <distribution name> <versionNumber> # Preferably Ubuntu. Debian is less feature-rich
 
 # Quickly Trigger Hyper-V Off
 
