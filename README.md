@@ -90,4 +90,11 @@ Multi-Threaded
 stress-ng --cpu-method which
 stress-ng --cpu 2 --cpu-method matrixprod  --metrics-brief --perf -t 60
 ```
-
+  
+ # Docker Vendor Completions
+  If your terminal is outputting '/usr/share/zsh/vendor-completions/_docker not found' or similar each time you launch a terminal
+  + Open Docker Desktop
+  + Preferences > Resources > WSL Integration
+  + Untick 'Enable integration with my default WSL distro'
+  + Restart WSL and it should be fixed 'wsl.exe --shutdown'
+  + Question the ambiguity of that setting, and why it hasn't been rephrased or annotated.
