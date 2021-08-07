@@ -19,12 +19,10 @@ bcdedit --% /set  {OUTPUT ID FROM TERMINAL} hypervisorlaunchtype off
 // Reboot
 ```
 
-# gnome-boxes Display Fix in wslg
-
-```
-gnome-boxes --display=
-// No idea why this works, but I think it just hates Wayland(as do I)
-```
+# Dealing with Xservers in wslg (failed to launch xsession, etc)
+  + Consider using gwsl if you need 'stability'*
+  + If you're unable to launch something, remember that it uses wayland as the display server, so you can alternatively use Xnest or Xephyr to nest an xserver within Wayland.
+  + wsl handles certain environment variables in a very unfriendly way. Check the error logs in ~/ and make sure ~/.profile wasn't set to do something strange. Also check your .bashrc or alternative for $DISPLAY being modified.
 
 # Expose virtualization extensions in virt-manager/gnome-boxes
 
