@@ -108,3 +108,12 @@ stress-ng --cpu 2 --cpu-method matrixprod  --metrics-brief --perf -t 60
   + Keep in mind that this improves securtity, but also limits it to the user's environment to accomplish that. So if you have multiple users on your setup, the other users will also have to import the package list to have the same access rights systemwide.
   + Always install windows terminal
   + For now, grab winget from Microsoft's github, as it is completely broken in the Windows store.
+  
+## Scrolling is Not Smooth
+If you're having issues with scrolling not being smooth in Windows generally, Browser, Electron Applications (vscode, discord, typora, etc.)
+  + Ensure 'smooth scroll-list boxes' and 'animate controls and elements inside windows' are ticked in Performance Options.
+  + Ensure you don't have wonky 'scroll acceleration' settings if your computer has a configuration for mouse, touchpad, etc.
+  + Pray
+  + If that didn't work, also check browser options for 'smooth scrolling' 'and hardware accel' Messing with those should fix it.
+  ( edge://flags chrome://flags or wherever in firefox.)
+Windows seems to detick this for some people, regardless of hardware. If you've disabled 'animations' inside of Accessibility Settings, that'll break it too. 
