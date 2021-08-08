@@ -116,4 +116,5 @@ If you're having issues with scrolling not being smooth in Windows generally, Br
   + Pray
   + If that didn't work, also check browser options for 'smooth scrolling' 'and hardware accel' Messing with those should fix it.
   ( edge://flags chrome://flags or wherever in firefox.)
+  + One other solution seems to be setting 'Lines to Scroll At A Time' to '1' instead of '3' under Bluetooth And Mouse. (Redundant setting in the old mouse options, so check that too.) 
 Windows seems to detick this for some people, regardless of hardware. If you've disabled 'animations' inside of Accessibility Settings, that'll break it too. 
