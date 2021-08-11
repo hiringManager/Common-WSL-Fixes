@@ -1,5 +1,8 @@
 # Common-WSL-Fixes
 
+Before you do anything else - many of the common fixes will be found here in this ultra-secret microsoft documentation.   https://github.com/MicrosoftDocs/wsl/blob/master/WSL/wsl-config.md  
+Everything in this guide is related to quality-of-life, **hyper-v shenanigans**, vmware, and some simple processes you'll need.
+
 - [Enable WSL2](#enable-wsl2) 
 - [Quickly Trigger Hyper-V Off](#quickly-trigger-hyper-v-off)
 - [Disable wslg System-Wide](#disable-wslg-system-wide)
@@ -14,10 +17,6 @@
 - [Linux Benchmarks](#linux-benchmarks)
 - [Export Installed Packages in Windows (winget)](#export-installed-packages-in-windows-winget)
 - [Scrolling is Not Smooth](#scrolling-is-not-smooth)
-
-Firstly, many of the common fixes will be found here in this ultra-secret microsoft documentation. 
-https://github.com/MicrosoftDocs/wsl/blob/master/WSL/wsl-config.md
-Everything in this guide is related to quality-of-life and hyper-v shenanigans breaking virtualbox, vmware, and some common fixes with the wsl cli.
 
 ## Enable WSL2
 
