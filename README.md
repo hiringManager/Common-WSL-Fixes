@@ -1,5 +1,20 @@
 # Common-WSL-Fixes
 
+- [Enable WSL2](#enable-wsl2) 
+- [Quickly Trigger Hyper-V Off](#quickly-trigger-hyper-v-off)
+- [Disable wslg System-Wide](#disable-wslg-system-wide)
+- [Move a Linux Installation](#move-a-linux-installation)
+- [Docker Vendor Completions](#docker-vendor-completions)
+- [Dealing with Xservers in wslg (failed to launch xsession, etc)](#dealing-with-xservers-in-wslg-failed-to-launch-xsession-etc)
+- [Expose virtualization extensions in virt-manager/gnome-boxes](#expose-virtualization-extensions-in-virt-managergnome-boxes)
+- [Exposing nested-virtualization extensions](#exposing-nested-virtualization-extensions)
+- [Limiting the vm's resources](#limiting-the-vms-resources)
+- [VMWare Player Being Annoying](#vmware-player-being-annoying)
+- [Cpu Tests](#cpu-tests)
+- [Linux Benchmarks](#linux-benchmarks)
+- [Export Installed Packages in Windows (winget)](#export-installed-packages-in-windows-winget)
+- [Scrolling is Not Smooth](#scrolling-is-not-smooth)
+
 Firstly, many of the common fixes will be found here in this ultra-secret microsoft documentation. 
 https://github.com/MicrosoftDocs/wsl/blob/master/WSL/wsl-config.md
 Everything in this guide is related to quality-of-life and hyper-v shenanigans breaking virtualbox, vmware, and some common fixes with the wsl cli.
@@ -87,24 +102,17 @@ wsl --unregister Ubuntu
 
 This also applies to Hyper-V in some cases, but I'm not sure how. There is a psh line you can google to trigger it for HV.
 
-## Create C:\Users\<YourName>\.wslconfig
+## Exposing nested-virtualization extensions  
 
-I would stick to doing this per-vm, because it will break. Remember to wsl.exe --shutdown for it to take effect.
-If process hangs - Open Task Manager > Services > Restart lxssmanager
-Any problems just delete the .wslconfig and reboot. 
-
-
-## Exposing nested-virtualization extensions
-
-[wsl2]
-nestedVirtualization=true
-kernel=C:\\Users\\<YOU>\\bzImage # You may need to compile a kernel for this.
+[wsl2]  
+nestedVirtualization=true  
+kernel=C:\\Users\\<YOU>\\bzImage # You may need to compile a kernel for this.  
   
 ## Limiting the vm's resources
 
 ```
-[wsl2]
-memory=7GB # Limits VM memory in WSL 2 to 4 GB
+[wsl2]  
+memory=7GB # Limits VM memory in WSL 2 to 4 GB  
 processors=2 # Makes the WSL 2 VM use two virtual processors /etc/wsl.conf
 ```
 
