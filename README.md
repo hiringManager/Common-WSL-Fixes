@@ -16,13 +16,60 @@ This makes a secondary boot-entry so you can switch in like 2 seconds, vs going 
 
 It's worth doing this, promise. 
 
-```
-// Run powershell as Admin. (different commands for cmd)
-bcdedit --% /copy {current} /d "No Hyper V"
-bcdedit --% /set  {OUTPUT ID FROM TERMINAL} hypervisorlaunchtype off
-// Reboot
-```
+  ```
+// Run powershell as Admin. (different commands for cmd)  
+bcdedit --% /copy {current} /d "No Hyper V"  
+bcdedit --% /set  {OUTPUT ID FROM TERMINAL} hypervisorlaunchtype off  
+// Reboot  
+  ```  
   
+## Disable wslg System-Wide  
+Append to C:\Users\<USER>\.wslconfig
+  
+  ```
+[wsl2] 
+guiApplications=false
+  ```
+  wsl.exe --shutdown  
+  
+I have noticed some serious background cpu-smashing by wslg, so it's best to disable it unless you specifically need something. Remember that this a wayland layer so expect weirdness and breakage if you have it enabled.  
+
+## Move a Linux Installation  
+  
+- list distro and version  
+wsl -l -v  
+  
+- OOM
+  This exports to stdio, and requires a lot of memory to compress to a .tar. In my case, it looped infinitely.
+wsl --export Ubuntu-20.04 - | wsl --import Moved-Ubuntu-20.04 M:\wsl -
+
+Finally I ended up just mounting the linux container in a new distro installation because I'm guessing nixpkg/nix broke the exporting in some way. The return was 'undefined error' so that's my best guess. This lead to a lot of lost time, so if you encounter this, just mount ~/ in a new container and migrate. The .tar took roughly 5-10 mins for a 13 gb vhdx, import failed after 5, and I tried importing 4 times.  
+
+- Without stdio  
+wsl --export Ubuntu C:\Path\Truebuntu.tar  
+wsl --import <Distro new name> <C:\Path\to\export>   
+
+  - Import  
+wsl -- import <The undefined name of your new distro> <Installation Path - M:\wsl\Truebuntu> C:\Path\To\Tar  
+
+- MS Docs  
+https://docs.microsoft.com/en-us/windows/wsl/use-custom-distro  
+
+-  First solution / OOM  
+https://stackoverflow.com/questions/62533122/how-to-move-a-windows-10-wsl-2-linux-distribution-to-another-location  
+
+  - Cleanup  
+Not until you are sure, buddy.    
+wsl --unregister Ubuntu  
+
+ - If you're logging in as root instead of a user by default.
+ Append to /etc/wsl.conf  
+ ``` 
+ [user]  
+ default=YourUserName  
+  
+  ```
+
 ## Docker Vendor Completions
   If your terminal is outputting '/usr/share/zsh/vendor-completions/_docker not found' or similar each time you launch a terminal
   + Open Docker Desktop
@@ -46,7 +93,7 @@ I would stick to doing this per-vm, because it will break. Remember to wsl.exe -
 If process hangs - Open Task Manager > Services > Restart lxssmanager
 Any problems just delete the .wslconfig and reboot. 
 
-```
+
 ## Exposing nested-virtualization extensions
 
 [wsl2]
@@ -55,11 +102,13 @@ kernel=C:\\Users\\<YOU>\\bzImage # You may need to compile a kernel for this.
   
 ## Limiting the vm's resources
 
+```
 [wsl2]
 memory=7GB # Limits VM memory in WSL 2 to 4 GB
 processors=2 # Makes the WSL 2 VM use two virtual processors /etc/wsl.conf
 ```
 
+  
 ## VMWare Player Being Annoying
 
 VMware Player is actually configurable in a lot of ways, but they go out of their way to act like it isn't.
