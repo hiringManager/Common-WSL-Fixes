@@ -98,22 +98,31 @@ wsl --unregister Ubuntu
 
 ## Expose virtualization extensions in virt-manager/gnome-boxes
 
-This also applies to Hyper-V in some cases, but I'm not sure how. There is a psh line you can google to trigger it for HV.
+This also applies to Hyper-V in some cases, but I'm not sure how. There is a powershell line you can google to trigger it for Hyper-V.
 
 ## Exposing nested-virtualization extensions  
 
-[wsl2]  
-nestedVirtualization=true  
+[wsl2]
+nestedVirtualization=True # I've seen reference to this, but untested. idk  
+guiApplications=True # wslg enabled  
 kernel=C:\\Users\\<YOU>\\bzImage # You may need to compile a kernel for this.  
   
-## Limiting the vm's resources
+## Limiting wsl's resources
 
 ```
 [wsl2]  
 memory=7GB # Limits VM memory in WSL 2 to 4 GB  
-processors=2 # Makes the WSL 2 VM use two virtual processors /etc/wsl.conf
+processors=2 # Makes the WSL 2 VM use two virtual processors /etc/wsl.conf  
+# Or alternatively C:\Users\<YOU>\.wslconfig to enable globally  
 ```
 
+## Logging in as root instead of user upon wsl --import
+  open /etc/wsl.conf
+  ```bash
+  [user]
+  default = username
+  ```
+  Restart wsl (wsl --shutdown) and login should be repaired.
   
 ## VMWare Player Being Annoying
 
@@ -128,9 +137,13 @@ Open an Elevated Text Editor and cd to --
 ulm.disableMitigations = "TRUE" # Sidechannel Mitigations
 printers.enabled = "FALSE"
 vmplayer.showChrome = "FALSE" 
-# I believe this makes that annoying full-screen bar die --and they act like it's a 'premium' feature lol.
-pref.vmplayer.fullscreen.nobar = "TRUE" # But there is something weird about it that I can't recall so this option may be on a 'per' vm basis
-```
+# I believe this makes that annoying full-screen bar die --and they act like it's a 'premium' feature lol.  
+pref.vmplayer.fullscreen.nobar = "TRUE" # But there is something weird about it that I can't recall so this option may be on a 'per' vm basis  
+  
+If you encounter terrible disk performance, consider enabling 'Windows Hypervisor Platform'.  
+  Upon installation, VMware prompts you to enable it, but it isn't required *per-se*. 
+  This can lead to some weirdness I've noticed, but it's all poorly documented.  
+  ```
 
 ## Cpu Tests
 
@@ -144,22 +157,31 @@ egrep '^flags.*(vmx|svm)' /proc/cpuinfo
 
 Single Threaded
 
-```
+```bash
 sudo apt-get install sysbench
 sysbench --test=cpu --cpu-max-prime=20000 run
 ```
 
 Multi-Threaded
 
-```sudo apt install stress-ng
+```bash
+  sudo apt install stress-ng
 stress-ng --cpu-method which
 stress-ng --cpu 2 --cpu-method matrixprod  --metrics-brief --perf -t 60
 ```
 
 ## Export Installed Packages in Windows (winget)
-  If you format consistently, don't like to deal with cumbersome installers, or just need portability - you need to be using winget. It allows you to save a huge amount of time by letting you install and search software from the cli. It is also safer because the repositories are more trustworthy than *googling installers clumsily*. It's not often that I find something that *isn't* available for me as a package. (Even Steam, Discord, Firefox, and Visual Studio are available.) 
+  
+  If you format consistently, don't like to deal with cumbersome installers, or just need portability - you need to be using winget. 
+  It allows you to save a huge amount of time by letting you install and search software from the cli. It is also safer because the repositories are more trustworthy than *googling installers clumsily*.
   + winget export filename # Export current Packages
   + winget import filename # Restore Previous Packages
   + Keep in mind that this improves securtity, but also limits it to the user's environment to accomplish that. So if you have multiple users on your setup, the other users will also have to import the package list to have the same access rights systemwide.
-  + Always install windows terminal
-  + For now, grab winget from Microsoft's github, as it is completely broken in the Windows store.
+  
+### To Do
+  
+  + Generate new Table of Contents  
+  + Additions for Windows Subsystem for Android  
+  + General Clean Up  
+  + Consolidate [wsl2] .conf sections.
+  + Lint for consistency
